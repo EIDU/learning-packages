@@ -9,7 +9,7 @@ class LearningPackageMetaTest {
 
     companion object {
         private val META = LearningPackageMeta(
-            AppVersion("app", "version"),
+            LearningAppVersion("app", "version"),
             "activity"
         )
     }

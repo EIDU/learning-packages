@@ -1,6 +1,6 @@
 package com.eidu.content.learningpackages
 
-import com.eidu.content.learningpackages.domain.AppVersion
+import com.eidu.content.learningpackages.domain.LearningAppVersion
 import com.eidu.content.learningpackages.domain.LearningPackageMeta
 import com.eidu.content.learningpackages.domain.LearningUnitList
 import com.eidu.content.learningpackages.util.getStrings
@@ -68,7 +68,7 @@ class LearningPackage(
             "Did not find exactly one activity with an intent filter for com.eidu.integration.LAUNCH_LEARNING_UNIT"
         )
 
-        return LearningPackageMeta(AppVersion(packageName, versionName), launchUnitActivity)
+        return LearningPackageMeta(LearningAppVersion(packageName, versionName), launchUnitActivity)
     }
 
     override fun close() = zipFile.close()

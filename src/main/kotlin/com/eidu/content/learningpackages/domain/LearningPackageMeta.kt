@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LearningPackageMeta(
-    val app: AppVersion,
+    val app: LearningAppVersion,
     val launchUnitActivity: String
 )

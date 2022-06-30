@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import assertk.assertions.isEqualTo
 import assertk.assertions.startsWith
-import com.eidu.content.learningpackages.domain.AppVersion
+import com.eidu.content.learningpackages.domain.LearningAppVersion
 import com.eidu.content.learningpackages.domain.LearningPackageMeta
 import com.eidu.content.learningpackages.domain.LearningUnit
 import com.eidu.content.learningpackages.domain.LearningUnitList
@@ -40,7 +40,7 @@ class LearningPackageTest {
     fun `gets learning package meta`() =
         assertThat(learningPackage.meta).isEqualTo(
             LearningPackageMeta(
-                AppVersion("com.eidu.integration.sample.app", "0.0.1"),
+                LearningAppVersion("com.eidu.integration.sample.app", "0.0.1"),
                 "com.eidu.integration.sample.app.ui.MainActivity"
             )
         )
