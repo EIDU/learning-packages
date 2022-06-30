@@ -11,10 +11,10 @@ pluginManagement {
             credentials {
                 username = System.getenv("READPACKAGES_GITHUB_USER")
                     ?: System.getenv("GITHUB_READPACKAGES_USER")
-                            ?: properties.getProperty("githubReadPackagesUser")
+                    ?: properties.getProperty("githubReadPackagesUser")
                 password = System.getenv("READPACKAGES_GITHUB_TOKEN")
                     ?: System.getenv("GITHUB_READPACKAGES_TOKEN")
-                            ?: properties.getProperty("githubReadPackagesToken")
+                    ?: properties.getProperty("githubReadPackagesToken")
             }
         }
     }

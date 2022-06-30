@@ -27,8 +27,8 @@ fun run(command: String): String {
 
 fun version(): String = System.getenv("GITHUB_RUN_NUMBER")?.let { runNumber ->
     "1.0.$runNumber" + (
-            run("git rev-parse --abbrev-ref HEAD").takeIf { it != "main" }?.let { "-$it" } ?: ""
-            )
+        run("git rev-parse --abbrev-ref HEAD").takeIf { it != "main" }?.let { "-$it" } ?: ""
+        )
 } ?: "snapshot"
 
 repositories {
@@ -39,10 +39,10 @@ repositories {
         credentials {
             username = System.getenv("READPACKAGES_GITHUB_USER")
                 ?: System.getenv("GITHUB_READPACKAGES_USER")
-                        ?: localProperties.getProperty("githubReadPackagesUser")
+                ?: localProperties.getProperty("githubReadPackagesUser")
             password = System.getenv("READPACKAGES_GITHUB_TOKEN")
                 ?: System.getenv("GITHUB_READPACKAGES_TOKEN")
-                        ?: localProperties.getProperty("githubReadPackagesToken")
+                ?: localProperties.getProperty("githubReadPackagesToken")
         }
     }
 }
@@ -57,6 +57,9 @@ dependencies {
 
     // Logging
     api("org.slf4j:slf4j-api:1.7.36")
+
+    // Learning Packages
+    implementation("net.dongliu:apk-parser:2.6.10")
 
     // Unit Tests
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
