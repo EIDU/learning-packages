@@ -8,8 +8,8 @@ if (localPropertiesFile.canRead())
     localProperties.load(localPropertiesFile.inputStream())
 
 plugins {
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("jvm") version "1.7.0"
+    kotlin("plugin.serialization") version "1.7.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
     id("maven-publish")
     id("com.eidu.vulnerability-reporter") version "1.+"
@@ -49,7 +49,7 @@ repositories {
 
 dependencies {
     // Kotlin JVM
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.0")
 
     // KotlinX Serialization
     api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3")
