@@ -22,7 +22,9 @@ class LearningPackage(
     private val zipFile = ZipFile(file)
 
     private val entries: Map<String, ZipEntry> by lazy {
-        zipFile.entries().asSequence().filter { !it.isDirectory }.associateBy { it.name }
+        zipFile.entries().asSequence().filter {
+            !it.isDirectory && !it.name.contains(".DS_Store") && !it.name.contains("__MACOSX")
+        }.associateBy { it.name }
     }
 
     val meta: LearningPackageMeta by lazy {
