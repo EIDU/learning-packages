@@ -3,6 +3,8 @@ package com.eidu.content.learningpackages
 import assertk.assertThat
 import assertk.assertions.containsExactlyInAnyOrder
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
+import assertk.assertions.isNull
 import assertk.assertions.startsWith
 import com.eidu.content.learningpackages.domain.LearningAppVersion
 import com.eidu.content.learningpackages.domain.LearningPackageMeta
@@ -65,8 +67,11 @@ class LearningPackageTest {
     @Test
     fun `gets and reads icons`() {
         assertThat(learningPackage.icons).containsExactlyInAnyOrder("sample.png")
-        assertThat(learningPackage.readIcon("sample.png").readAllBytes().sliceArray(0..3))
-            .isEqualTo(PNG_SIGNATURE)
+
+        assertThat(learningPackage.readIcon("absent")).isNull()
+
+        assertThat(learningPackage.readIcon("sample.png")?.readAllBytes()?.sliceArray(0..3))
+            .isNotNull().isEqualTo(PNG_SIGNATURE)
     }
 
     @Test
@@ -74,11 +79,15 @@ class LearningPackageTest {
         assertThat(learningPackage.assets)
             .containsExactlyInAnyOrder("text.txt", "subfolder/image.jpg", "subfolder/audio.mp3")
 
-        assertThat(learningPackage.readAsset("text.txt").readAllBytes().decodeToString()).startsWith("This")
-        assertThat(learningPackage.readAsset("subfolder/image.jpg").readAllBytes().sliceArray(0..3))
-            .isEqualTo(JPEG_SIGNATURE)
-        assertThat(learningPackage.readAsset("subfolder/audio.mp3").readAllBytes().sliceArray(0..3))
-            .isEqualTo(MP3_SIGNATURE)
+        assertThat(learningPackage.readAsset("absent")).isNull()
+
+        assertThat(learningPackage.readAsset("text.txt")?.readAllBytes()?.decodeToString())
+            .isNotNull().startsWith("This")
+
+        assertThat(learningPackage.readAsset("subfolder/image.jpg")?.readAllBytes()?.sliceArray(0..3))
+            .isNotNull().isEqualTo(JPEG_SIGNATURE)
+        assertThat(learningPackage.readAsset("subfolder/audio.mp3")?.readAllBytes()?.sliceArray(0..3))
+            .isNotNull().isEqualTo(MP3_SIGNATURE)
     }
 
     @Test

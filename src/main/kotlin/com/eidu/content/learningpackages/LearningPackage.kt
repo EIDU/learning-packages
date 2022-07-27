@@ -51,8 +51,8 @@ class LearningPackage(
 
     fun readApk(): InputStream = zipFile.getInputStream(entries.getValue(APK_PATH))
     fun readUnits(): InputStream = zipFile.getInputStream(entries.getValue(UNITS_PATH))
-    fun readAsset(asset: String): InputStream = zipFile.getInputStream(entries.getValue("$ASSETS_PATH$asset"))
-    fun readIcon(icon: String): InputStream = zipFile.getInputStream(entries.getValue("$ICONS_PATH$icon"))
+    fun readAsset(asset: String): InputStream? = entries["$ASSETS_PATH$asset"]?.let { zipFile.getInputStream(it) }
+    fun readIcon(icon: String): InputStream? = entries["$ICONS_PATH$icon"]?.let { zipFile.getInputStream(it) }
 
     private fun extractApk(tempFile: File) {
         readApk().use { apk -> tempFile.outputStream().use { apk.copyTo(it) } }
