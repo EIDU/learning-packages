@@ -66,28 +66,34 @@ class LearningPackageTest {
 
     @Test
     fun `gets and reads icons`() {
-        assertThat(learningPackage.icons).containsExactlyInAnyOrder("sample.png")
+        assertThat(learningPackage.icons.keys).containsExactlyInAnyOrder("sample.png")
 
-        assertThat(learningPackage.readIcon("absent")).isNull()
+        assertThat(learningPackage.icons["absent"]).isNull()
 
-        assertThat(learningPackage.readIcon("sample.png")?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.icons["sample.png"]?.read()?.readAllBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(PNG_SIGNATURE)
+        assertThat(learningPackage.icons["sample.png"]?.size).isNotNull().isEqualTo(ICON_SIZE)
     }
 
     @Test
     fun `gets and reads assets`() {
-        assertThat(learningPackage.assets)
+        assertThat(learningPackage.assets.keys)
             .containsExactlyInAnyOrder("text.txt", "subfolder/image.jpg", "subfolder/audio.mp3")
 
-        assertThat(learningPackage.readAsset("absent")).isNull()
+        assertThat(learningPackage.assets["absent"]).isNull()
 
-        assertThat(learningPackage.readAsset("text.txt")?.readAllBytes()?.decodeToString())
+        assertThat(learningPackage.assets["text.txt"]?.read()?.readAllBytes()?.decodeToString())
             .isNotNull().startsWith("This")
 
-        assertThat(learningPackage.readAsset("subfolder/image.jpg")?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.assets["text.txt"]?.size).isNotNull().isEqualTo(TEXT_SIZE)
+
+        assertThat(learningPackage.assets["subfolder/image.jpg"]?.read()?.readAllBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(JPEG_SIGNATURE)
-        assertThat(learningPackage.readAsset("subfolder/audio.mp3")?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.assets["subfolder/image.jpg"]?.size).isNotNull().isEqualTo(JPEG_SIZE)
+
+        assertThat(learningPackage.assets["subfolder/audio.mp3"]?.read()?.readAllBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(MP3_SIGNATURE)
+        assertThat(learningPackage.assets["subfolder/audio.mp3"]?.size).isNotNull().isEqualTo(MP3_SIZE)
     }
 
     @Test
@@ -107,5 +113,10 @@ class LearningPackageTest {
         private val MP3_SIGNATURE = byteArrayOf(-1, -0xd, -0x7c, 0x44)
         private val PNG_SIGNATURE = byteArrayOf(-0x77, 0x50, 0x4e, 0x47)
         private val APK_SIGNATURE = byteArrayOf(0x50, 0x4B, 0x03, 0x04)
+
+        private const val ICON_SIZE = 4669L
+        private const val TEXT_SIZE = 29L
+        private const val MP3_SIZE = 23040L
+        private const val JPEG_SIZE = 150321L
     }
 }

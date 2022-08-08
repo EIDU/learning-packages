@@ -19,6 +19,14 @@ class LearningPackage(
     file: File
 ) : Closeable {
 
+    inner class Entry(
+        val path: String,
+        private val zipEntry: ZipEntry
+    ) {
+        val size get() = zipEntry.size
+        fun read(): InputStream = zipFile.getInputStream(zipEntry)
+    }
+
     private val zipFile = ZipFile(file)
 
     private val entries: Map<String, ZipEntry> by lazy {
@@ -41,18 +49,18 @@ class LearningPackage(
         json.decodeFromString(readUnits().reader().use { it.readText() })
     }
 
-    val assets: List<String> by lazy {
-        entries.keys.mapNotNull { it.removePrefixOrNull(ASSETS_PATH) }
+    val assets: Map<String, Entry> by lazy {
+        entries.mapNotNull { (key, value) -> key.removePrefixOrNull(ASSETS_PATH)?.let { it to Entry(it, value) } }
+            .toMap()
     }
 
-    val icons: List<String> by lazy {
-        entries.keys.mapNotNull { it.removePrefixOrNull(ICONS_PATH) }
+    val icons: Map<String, Entry> by lazy {
+        entries.mapNotNull { (key, value) -> key.removePrefixOrNull(ICONS_PATH)?.let { it to Entry(it, value) } }
+            .toMap()
     }
 
     fun readApk(): InputStream = zipFile.getInputStream(entries.getValue(APK_PATH))
     fun readUnits(): InputStream = zipFile.getInputStream(entries.getValue(UNITS_PATH))
-    fun readAsset(asset: String): InputStream? = entries["$ASSETS_PATH$asset"]?.let { zipFile.getInputStream(it) }
-    fun readIcon(icon: String): InputStream? = entries["$ICONS_PATH$icon"]?.let { zipFile.getInputStream(it) }
 
     private fun extractApk(tempFile: File) {
         readApk().use { apk -> tempFile.outputStream().use { apk.copyTo(it) } }
