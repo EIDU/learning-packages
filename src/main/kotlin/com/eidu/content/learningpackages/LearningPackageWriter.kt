@@ -2,7 +2,6 @@ package com.eidu.content.learningpackages
 
 import com.eidu.content.learningpackages.domain.LearningUnitList
 import com.eidu.content.learningpackages.util.json
-import kotlinx.serialization.encodeToString
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -20,7 +19,12 @@ class LearningPackageWriter {
         try {
             ZipOutputStream(FileOutputStream(out)).use { zip ->
                 zip.putEntry("app.apk", apk.inputStream())
-                zip.putEntry("units.json", json.encodeToString(units).toByteArray().inputStream())
+
+                zip.putEntry(
+                    "units.json",
+                    json.encodeToString(LearningUnitList.serializer(), units).toByteArray().inputStream()
+                )
+
                 icons.forEach { zip.putEntry("icons/${it.name}", it.inputStream()) }
 
                 assetsDirectory?.apply {
