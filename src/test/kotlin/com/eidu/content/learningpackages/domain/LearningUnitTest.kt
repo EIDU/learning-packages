@@ -38,21 +38,59 @@ class LearningUnitTest {
     }
 
     @Test
-    fun `deserialization omits empty tag categories`() {
-        assertThat(
-            json.decodeFromString(
-                LearningUnit.serializer(),
-                """
-                   {
-                     "id": "unit2",
-                     "tags": {
-                       "emptyCategory": []
-                     }
-                   } 
-                """
-            )
-        ).isEqualTo(MINIMAL_UNIT)
-    }
+    fun `deserialization omits empty tag categories`() = assertThat(
+        json.decodeFromString(
+            LearningUnit.serializer(),
+            """
+               {
+                 "id": "unit2",
+                 "tags": {
+                   "emptyCategory": []
+                 }
+               } 
+            """
+        )
+    ).isEqualTo(MINIMAL_UNIT)
+
+    @Test
+    fun `merges with other unit`() = assertThat(UNIT.merge(OTHER_UNIT)).isEqualTo(
+        LearningUnit(
+            "unit1",
+            "sample.png",
+            mapOf(
+                "category1" to setOf("tag1", "tag2", "tag3"),
+                "category2" to setOf("tag3"),
+                "category3" to setOf("tag4")
+            ),
+            mapOf(
+                "title" to "the title",
+                "description" to "the description",
+                "emptyfield" to "",
+                "new-field" to "new value"
+            ),
+            listOf("subfolder/", "text.txt", "new-folder/")
+        )
+    )
+
+    @Test
+    fun `merges minimal unit with other unit`() = assertThat(MINIMAL_UNIT.merge(OTHER_UNIT)).isEqualTo(
+        LearningUnit(
+            "unit2",
+            "sample3.png",
+            mapOf("category1" to setOf("tag2", "tag3"), "category3" to setOf("tag4")),
+            mapOf(
+                "title" to "the title 2",
+                "new-field" to "new value"
+            ),
+            listOf("new-folder/")
+        )
+    )
+
+    @Test
+    fun `merges unit with itself`() = assertThat(UNIT.merge(UNIT)).isEqualTo(UNIT)
+
+    @Test
+    fun `merges minimal unit with itself`() = assertThat(MINIMAL_UNIT.merge(MINIMAL_UNIT)).isEqualTo(MINIMAL_UNIT)
 
     companion object {
         private val UNIT = LearningUnit(
@@ -64,5 +102,13 @@ class LearningUnitTest {
         )
 
         private val MINIMAL_UNIT = LearningUnit("unit2")
+
+        private val OTHER_UNIT = LearningUnit(
+            "unit3",
+            "sample3.png",
+            mapOf("category1" to setOf("tag2", "tag3"), "category3" to setOf("tag4")),
+            mapOf("title" to "the title 2", "new-field" to "new value"),
+            listOf("new-folder/")
+        )
     }
 }

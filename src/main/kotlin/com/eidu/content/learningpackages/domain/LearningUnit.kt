@@ -20,8 +20,30 @@ data class LearningUnit(
             filePath == it || (it.endsWith('/') && filePath.startsWith(it))
         }
 
+    /**
+     * Merges the other LearningUnit into this one and returns the result. Present values take precedence over absent
+     * values, and values present in this instance take precedence over values present in [other].
+     */
+    fun merge(other: LearningUnit) = LearningUnit(
+        id = id,
+        icon = icon ?: other.icon,
+        tags = mergeTags(tags, other.tags),
+        fields = other.fields + fields,
+        assets = (assets + other.assets).distinct()
+    )
+
     companion object {
         const val TITLE_FIELD = "title"
         const val DESCRIPTION_FIELD = "description"
+
+        private fun mergeTags(
+            first: Map<String, Set<String>>,
+            second: Map<String, Set<String>>
+        ): Map<String, Set<String>> {
+            val result = mutableMapOf<String, MutableSet<String>>()
+            first.forEach { (key, value) -> result[key] = value.toMutableSet() }
+            second.forEach { (key, value) -> result.getOrPut(key) { mutableSetOf() }.addAll(value) }
+            return result
+        }
     }
 }
