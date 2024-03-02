@@ -12,7 +12,6 @@ plugins {
     kotlin("plugin.serialization") version "1.7.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
     id("maven-publish")
-    id("com.eidu.vulnerability-reporter") version "1.+"
 }
 
 fun run(command: String): String {
