@@ -65,9 +65,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("io.mockk:mockk:1.12.4")
     testImplementation("com.willowtreeapps.assertk:assertk:0.25")
-
-    // Ktlint Rules
-    ktlintRuleset("com.eidu:ktlint-rules:1.0.8")
 }
 
 tasks {

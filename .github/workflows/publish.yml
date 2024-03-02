@@ -6,10 +6,6 @@ jobs:
   Publish:
     runs-on: ubuntu-22.04
 
-    env:
-      GITHUB_READPACKAGES_USER: ${{ secrets.GH_READPACKAGES_USER }}
-      GITHUB_READPACKAGES_TOKEN: ${{ secrets.GH_READPACKAGES_TOKEN }}
-
     steps:
       - uses: actions/checkout@v2
 
