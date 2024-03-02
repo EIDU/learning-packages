@@ -1,5 +1,8 @@
 import org.gradle.jvm.tasks.Jar
 import java.io.ByteArrayOutputStream
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Properties
 
 val localPropertiesFile = project.rootProject.file("local.properties")
@@ -8,10 +11,12 @@ if (localPropertiesFile.canRead())
     localProperties.load(localPropertiesFile.inputStream())
 
 plugins {
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.serialization") version "1.7.0"
-    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+    kotlin("jvm") version "1.9.22"
+    kotlin("plugin.serialization") version "1.9.22"
     id("maven-publish")
+    signing
+    id("com.palantir.git-version") version "3.0.0"
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 fun run(command: String): String {
@@ -24,35 +29,37 @@ fun run(command: String): String {
     }
 }
 
-fun version(): String = System.getenv("GITHUB_RUN_NUMBER")?.let { runNumber ->
-    "1.0.$runNumber" + (
-        run("git rev-parse --abbrev-ref HEAD").takeIf { it != "main" }?.let { "-$it" } ?: ""
-        )
-} ?: "snapshot"
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+
+fun version(): String = versionDetails().run {
+    if (commitDistance == 0 && isCleanTag && lastTag.matches(Regex("""\d+\.\d+\.\d+""")))
+        version
+    else (
+            System.getenv("GITHUB_RUN_NUMBER")?.let { "ci-${branchName}-$it-${gitHash}" }
+                ?: "dev-${branchName}-${
+                    DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneId.of("UTC")).format(Instant.now())
+                }-${gitHash}"
+            )
+}
+
+group = "com.eidu"
+version = version()
+
+kotlin {
+    jvmToolchain(8)
+}
 
 repositories {
     mavenCentral()
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/EIDU/learning-packages")
-        credentials {
-            username = System.getenv("READPACKAGES_GITHUB_USER")
-                ?: System.getenv("GITHUB_READPACKAGES_USER")
-                ?: localProperties.getProperty("githubReadPackagesUser")
-            password = System.getenv("READPACKAGES_GITHUB_TOKEN")
-                ?: System.getenv("GITHUB_READPACKAGES_TOKEN")
-                ?: localProperties.getProperty("githubReadPackagesToken")
-        }
-    }
 }
 
 dependencies {
     // Kotlin JVM
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.0")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
 
     // KotlinX Serialization
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     // Logging
     api("org.slf4j:slf4j-api:1.7.36")
@@ -98,22 +105,60 @@ val sourcesJar by tasks.creating(Jar::class) {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/EIDU/learning-packages")
+            name = "MavenCentral"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
-                username = System.getenv("GITHUB_USER")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("MAVEN_CENTRAL_USERNAME")
+                password = System.getenv("MAVEN_CENTRAL_PASSWORD")
             }
         }
     }
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "com.eidu"
-            artifactId = "learning-packages"
-            version = version()
 
-            from(components["java"])
-            artifact(sourcesJar)
+    publications.create<MavenPublication>("maven") {
+        val javadocJar = tasks.register("javadocJar$name", Jar::class) {
+            archiveClassifier.set("javadoc")
+            archiveBaseName.set("javadoc-${this@create.name}")
+            from(tasks.dokkaHtml)
+        }
+
+        artifactId = rootProject.name
+        version = project.version.toString()
+
+        from(components["java"])
+        artifact(javadocJar.get())
+        artifact(sourcesJar)
+
+        pom {
+            name = rootProject.name
+            description = "Support for reading EIDU learning packages"
+            url = "https://github.com/EIDU/learning-packages"
+            licenses {
+                license {
+                    name = "GNU General Public License, version 3 (GPLv3)"
+                    url = "https://www.gnu.org/licenses/gpl-3.0.html"
+                }
+            }
+            developers {
+                developer {
+                    id = "berlix"
+                    name = "Felix Engelhardt"
+                    url = "https://github.com/berlix/"
+                }
+            }
+            scm {
+                connection = "scm:git:ssh://git@github.com/EIDU/learning-packages.git"
+                developerConnection = "scm:git:ssh://git@github.com/EIDU/learning-packages.git"
+                url = "https://github.com/EIDU/learning-packages"
+            }
+        }
+
+        signing {
+            useInMemoryPgpKeys(
+                System.getenv("SIGNING_KEY_ID"),
+                System.getenv("SIGNING_KEY"),
+                System.getenv("SIGNING_PASSWORD")
+            )
+            sign(this@create)
         }
     }
 }

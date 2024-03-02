@@ -1,6 +1,9 @@
-name: Publish
+name: CI
 
-on: push
+on:
+  push:
+    branches:
+      - '*'
 
 jobs:
   Publish:
@@ -9,16 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '11'
+          java-version: '21'
 
-      - name: Run linters and unit tests
-        run: ./gradlew ktlintCheck test --stacktrace
+      - name: Check
+        run: ./gradlew check --stacktrace
 
-      - name: Publish test reports
+      - name: Publish reports
         uses: actions/upload-artifact@v2
         with:
-          name: test-reports
-          path: build/reports/tests
+          name: reports
+          path: build/reports

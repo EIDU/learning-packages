@@ -27,12 +27,12 @@ class LearningPackageWriterTest {
         writer.write(packageFile, apk, UNITS, listOf(icon), assetsDirectory)
 
         val learningPackage = LearningPackage(packageFile)
-        assertThat(learningPackage.readApk().readAllBytes()).isEqualTo(apk.readBytes())
+        assertThat(learningPackage.readApk().readBytes()).isEqualTo(apk.readBytes())
         assertThat(learningPackage.learningUnitList).isEqualTo(UNITS)
         assertThat(learningPackage.icons.keys).containsOnly("sample.png")
-        assertThat(learningPackage.icons["sample.png"]?.read()?.readAllBytes() contentEquals icon.readBytes()).isTrue()
+        assertThat(learningPackage.icons["sample.png"]?.read()?.readBytes() contentEquals icon.readBytes()).isTrue()
         assertThat(learningPackage.assets.keys).containsOnly("text.txt")
-        assertThat(learningPackage.assets["text.txt"]?.read()?.readAllBytes() contentEquals asset.readBytes()).isTrue()
+        assertThat(learningPackage.assets["text.txt"]?.read()?.readBytes() contentEquals asset.readBytes()).isTrue()
     }
 
     private fun fileFromResource(resourcePath: String) =

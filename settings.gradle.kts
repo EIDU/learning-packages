@@ -1,11 +1,11 @@
 pluginManagement {
-    val properties: java.util.Properties by lazy {
-        java.util.Properties().apply { load(rootProject.projectDir.resolve("local.properties").inputStream()) }
-    }
-
     repositories {
         gradlePluginPortal()
     }
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
 rootProject.name = "learning-packages"

@@ -11,7 +11,6 @@ import com.eidu.content.learningpackages.domain.LearningPackageMeta
 import com.eidu.content.learningpackages.domain.LearningUnit
 import com.eidu.content.learningpackages.domain.LearningUnitList
 import com.eidu.content.learningpackages.util.json
-import kotlinx.serialization.decodeFromString
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -70,7 +69,7 @@ class LearningPackageTest {
 
         assertThat(learningPackage.icons["absent"]).isNull()
 
-        assertThat(learningPackage.icons["sample.png"]?.read()?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.icons["sample.png"]?.read()?.readBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(PNG_SIGNATURE)
         assertThat(learningPackage.icons["sample.png"]?.size).isNotNull().isEqualTo(ICON_SIZE)
     }
@@ -82,29 +81,29 @@ class LearningPackageTest {
 
         assertThat(learningPackage.assets["absent"]).isNull()
 
-        assertThat(learningPackage.assets["text.txt"]?.read()?.readAllBytes()?.decodeToString())
+        assertThat(learningPackage.assets["text.txt"]?.read()?.readBytes()?.decodeToString())
             .isNotNull().startsWith("This")
 
         assertThat(learningPackage.assets["text.txt"]?.size).isNotNull().isEqualTo(TEXT_SIZE)
 
-        assertThat(learningPackage.assets["subfolder/image.jpg"]?.read()?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.assets["subfolder/image.jpg"]?.read()?.readBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(JPEG_SIGNATURE)
         assertThat(learningPackage.assets["subfolder/image.jpg"]?.size).isNotNull().isEqualTo(JPEG_SIZE)
 
-        assertThat(learningPackage.assets["subfolder/audio.mp3"]?.read()?.readAllBytes()?.sliceArray(0..3))
+        assertThat(learningPackage.assets["subfolder/audio.mp3"]?.read()?.readBytes()?.sliceArray(0..3))
             .isNotNull().isEqualTo(MP3_SIGNATURE)
         assertThat(learningPackage.assets["subfolder/audio.mp3"]?.size).isNotNull().isEqualTo(MP3_SIZE)
     }
 
     @Test
     fun `reads units binary`() {
-        assertThat(json.decodeFromString<LearningUnitList>(learningPackage.readUnits().readAllBytes().decodeToString()))
+        assertThat(json.decodeFromString<LearningUnitList>(learningPackage.readUnits().readBytes().decodeToString()))
             .isEqualTo(learningPackage.learningUnitList)
     }
 
     @Test
     fun `reads APK`() {
-        assertThat(learningPackage.readApk().readAllBytes().sliceArray(0..3))
+        assertThat(learningPackage.readApk().readBytes().sliceArray(0..3))
             .isEqualTo(APK_SIGNATURE)
     }
 
