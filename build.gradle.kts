@@ -55,7 +55,7 @@ repositories {
 
 dependencies {
     // Kotlin JVM
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.23")
 
     // KotlinX Serialization
     api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
