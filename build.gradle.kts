@@ -16,7 +16,7 @@ plugins {
     id("maven-publish")
     signing
     id("com.palantir.git-version") version "3.0.0"
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 fun run(command: String): String {
