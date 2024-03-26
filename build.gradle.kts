@@ -62,7 +62,7 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     // Logging
-    api("org.slf4j:slf4j-api:1.7.36")
+    api("org.slf4j:slf4j-api:2.0.12")
 
     // Learning Packages
     implementation("net.dongliu:apk-parser:2.6.10")
