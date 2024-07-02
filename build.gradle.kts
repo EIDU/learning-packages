@@ -134,8 +134,8 @@ publishing {
             url = "https://github.com/EIDU/learning-packages"
             licenses {
                 license {
-                    name = "GNU General Public License, version 3 (GPLv3)"
-                    url = "https://www.gnu.org/licenses/gpl-3.0.html"
+                    name = "GNU Affero General Public License, version 3 (AGPLv3)"
+                    url = "https://raw.githubusercontent.com/EIDU/learning-packages/main/LICENSE"
                 }
             }
             developers {
