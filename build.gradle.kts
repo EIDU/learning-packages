@@ -17,6 +17,7 @@ plugins {
     signing
     id("com.palantir.git-version") version "3.0.0"
     id("org.jetbrains.dokka") version "1.9.20"
+    id("com.github.jk1.dependency-license-report") version "2.8"
 }
 
 fun run(command: String): String {
@@ -47,6 +48,20 @@ version = version()
 
 kotlin {
     jvmToolchain(8)
+}
+
+licenseReport {
+    allowedLicensesFile = File("$projectDir/allowed-licenses.json")
+}
+
+tasks.named("checkLicense") {
+    // The checkLicense task does not declare this input itself, so we do it here. This ensures
+    // that a modification of the file causes the checkLicense task to be re-evaluated.
+    inputs.file("$projectDir/allowed-licenses.json")
+}
+
+tasks.named("check") {
+    dependsOn("checkLicense")
 }
 
 repositories {

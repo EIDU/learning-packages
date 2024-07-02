@@ -1,0 +1,89 @@
+{
+  "allowedLicenses": [
+    { "moduleLicense": "MIT" },
+    { "moduleLicense": "MIT License" },
+    { "moduleLicense": "The MIT License" },
+
+    { "moduleLicense": "BSD-2-Clause" },
+    { "moduleLicense": "BSD 2-Clause" },
+    { "moduleLicense": "The BSD 2-Clause License" },
+
+    { "moduleLicense": "BSD-3-Clause" },
+    { "moduleLicense": "BSD 3-Clause" },
+    { "moduleLicense": "The BSD 3-Clause License" },
+
+    { "moduleLicense": "Apache-2.0" },
+    { "moduleLicense": "Apache 2.0" },
+    { "moduleLicense": "The Apache Software License, Version 2.0" },
+    { "moduleLicense": "The Apache License, Version 2.0" },
+    { "moduleLicense": "Apache License, Version 2.0" },
+
+    { "moduleLicense": "GPL-3.0" },
+    { "moduleLicense": "GPL 3.0" },
+    { "moduleLicense": "GPLv3" },
+    { "moduleLicense": "GPL 3" },
+    { "moduleLicense": "GNU General Public License, version 3 (GPLv3)" },
+    { "moduleLicense": "GNU General Public License, Version 3" },
+    { "moduleLicense": "GNU General Public License v3.0" },
+
+    { "moduleLicense": "GPL-3.0-only" },
+    { "moduleLicense": "GNU General Public License v3.0 only" },
+
+    { "moduleLicense": "GPL-3.0-or-later" },
+    { "moduleLicense": "GPL-3.0+" },
+    { "moduleLicense": "GNU General Public License v3.0 or later" },
+
+    { "moduleLicense": "GPL-2.0-or-later" },
+    { "moduleLicense": "GPL-2.0+" },
+    { "moduleLicense": "GNU General Public License v2.0 or later" },
+
+    { "moduleLicense": "GPL-1.0-or-later" },
+    { "moduleLicense": "GPL-1.0+" },
+    { "moduleLicense": "GNU General Public License v1.0 or later" },
+
+    { "moduleLicense": "LGPL-3.0" },
+    { "moduleLicense": "LGPL 3.0" },
+    { "moduleLicense": "LGPLv3" },
+    { "moduleLicense": "LGPL 3" },
+    { "moduleLicense": "GNU Lesser General Public License, version 3 (GPLv3)" },
+    { "moduleLicense": "GNU Lesser General Public License, Version 3" },
+    { "moduleLicense": "GNU Lesser General Public License v3.0" },
+
+    { "moduleLicense": "LGPL-3.0-only" },
+    { "moduleLicense": "GNU Lesser General Public License v3.0 only" },
+
+    { "moduleLicense": "LGPL-3.0-or-later" },
+    { "moduleLicense": "LGPL-3.0+" },
+    { "moduleLicense": "GNU Lesser General Public License v3.0 or later" },
+
+    { "moduleLicense": "LGPL-2.1-or-later" },
+    { "moduleLicense": "LGPL-2.1+" },
+    { "moduleLicense": "GNU Lesser General Public License v2.1 or later" },
+
+    { "moduleLicense": "LGPL-2.0-or-later" },
+    { "moduleLicense": "LGPL-2.0+" },
+    { "moduleLicense": "GNU Library General Public License v2.0 or later" },
+
+    { "moduleLicense": "AGPL-3.0" },
+    { "moduleLicense": "AGPL 3.0" },
+    { "moduleLicense": "AGPLv3" },
+    { "moduleLicense": "AGPL 3" },
+    { "moduleLicense": "GNU Affero General Public License, version 3 (GPLv3)" },
+    { "moduleLicense": "GNU Affero General Public License, Version 3" },
+    { "moduleLicense": "GNU Affero General Public License v3.0" },
+
+    { "moduleLicense": "AGPL-3.0-only" },
+    { "moduleLicense": "GNU Affero General Public License v3.0 only" },
+
+    { "moduleLicense": "AGPL-3.0-or-later" },
+    { "moduleLicense": "AGPL-3.0+" },
+    { "moduleLicense": "GNU Affero General Public License v3.0 or later" },
+
+    { "moduleLicense": "AGPL-1.0-or-later" },
+    { "moduleLicense": "AGPL-1.0+" },
+    { "moduleLicense": "Affero General Public License v1.0 or later" },
+
+    { "moduleLicense": "Zlib" },
+    { "moduleLicense": "zlib License" }
+  ]
+}
