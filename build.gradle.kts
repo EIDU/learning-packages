@@ -12,7 +12,7 @@ if (localPropertiesFile.canRead())
 
 plugins {
     kotlin("jvm") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("plugin.serialization") version "2.0.21"
     id("maven-publish")
     signing
     id("com.palantir.git-version") version "3.0.0"
