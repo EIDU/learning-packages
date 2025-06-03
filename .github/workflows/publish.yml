@@ -27,8 +27,8 @@ jobs:
           name: reports
           path: build/reports
 
-      - name: Publish JAR
-        run: ./gradlew publish --stacktrace
+      - name: Publish to Maven Central
+        run: ./gradlew publishToMavenCentralPortal --stacktrace
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}

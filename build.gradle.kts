@@ -1,8 +1,8 @@
 import org.gradle.jvm.tasks.Jar
-import java.io.ByteArrayOutputStream
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Base64
 import java.util.Properties
 
 val localPropertiesFile = project.rootProject.file("local.properties")
@@ -18,16 +18,7 @@ plugins {
     id("com.palantir.git-version") version "3.0.0"
     id("org.jetbrains.dokka") version "1.9.20"
     id("com.github.jk1.dependency-license-report") version "2.8"
-}
-
-fun run(command: String): String {
-    ByteArrayOutputStream().use { output ->
-        exec {
-            commandLine("sh", "-c", command)
-            standardOutput = output
-        }
-        return output.toString().trim()
-    }
+    id("tech.yanand.maven-central-publish").version("1.3.0")
 }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
@@ -118,17 +109,6 @@ val sourcesJar by tasks.creating(Jar::class) {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("MAVEN_CENTRAL_USERNAME")
-                password = System.getenv("MAVEN_CENTRAL_PASSWORD")
-            }
-        }
-    }
-
     publications.create<MavenPublication>("maven") {
         val javadocJar = tasks.register("javadocJar$name", Jar::class) {
             archiveClassifier.set("javadoc")
@@ -176,6 +156,12 @@ publishing {
             sign(this@create)
         }
     }
+}
+
+mavenCentral {
+    authToken.set(Base64.getEncoder().encodeToString("${System.getenv("MAVEN_CENTRAL_USERNAME")}:${System.getenv("MAVEN_CENTRAL_PASSWORD")}".toByteArray()))
+    publishingType.set("USER_MANAGED")
+    maxWait.set(300)
 }
 
 ProcessBuilder("git config --local core.hooksPath git-hooks".split(" ")).start()
