@@ -65,7 +65,7 @@ dependencies {
 
     // KotlinX Serialization
     api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
     // Logging
     api("org.slf4j:slf4j-api:2.0.12")
