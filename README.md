@@ -4,7 +4,7 @@ A library for reading [EIDU learning packages](https://dev.eidu.com/content/crea
 
 ## Support
 
-Please contact EIDU at [dev@eidu.com](mailto:dev@eidu.com) if you need help.
+Please contact Trellis Education at [hello@trellis.education](mailto:hello@trellis.education) if you need help.
 
 ## Contributing
 
