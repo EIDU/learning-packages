@@ -76,7 +76,7 @@ dependencies {
     // Unit Tests
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("com.willowtreeapps.assertk:assertk:0.28.0")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
 }
 
 tasks {
