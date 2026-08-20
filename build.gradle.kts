@@ -17,7 +17,7 @@ plugins {
     signing
     id("com.palantir.git-version") version "3.0.0"
     id("org.jetbrains.dokka") version "1.9.20"
-    id("com.github.jk1.dependency-license-report") version "2.8"
+    id("com.github.jk1.dependency-license-report") version "2.9"
     id("tech.yanand.maven-central-publish").version("1.3.0")
 }
 
