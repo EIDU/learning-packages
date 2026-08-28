@@ -11,8 +11,8 @@ if (localPropertiesFile.canRead())
     localProperties.load(localPropertiesFile.inputStream())
 
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("jvm") version "2.3.20"
+    kotlin("plugin.serialization") version "2.3.20"
     id("maven-publish")
     signing
     id("com.palantir.git-version") version "3.0.0"
@@ -61,7 +61,7 @@ repositories {
 
 dependencies {
     // Kotlin JVM
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.20")
 
     // KotlinX Serialization
     api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0")
@@ -75,25 +75,26 @@ dependencies {
 
     // Unit Tests
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.14.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.4")
     testImplementation("io.mockk:mockk:1.14.11")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
 }
 
 tasks {
     compileKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xopt-in=kotlin.RequiresOptIn"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+            freeCompilerArgs.addAll(
+                "-opt-in=kotlin.RequiresOptIn"
             )
         }
     }
     compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+            freeCompilerArgs.addAll(
+                "-opt-in=kotlin.RequiresOptIn",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
             )
         }
     }
@@ -103,7 +104,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-val sourcesJar by tasks.creating(Jar::class) {
+val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(sourceSets.getByName("main").allSource)
 }
