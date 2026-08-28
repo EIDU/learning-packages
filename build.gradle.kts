@@ -74,8 +74,8 @@ dependencies {
     implementation("net.dongliu:apk-parser:2.6.10")
 
     // Unit Tests
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.14.4")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
     testImplementation("io.mockk:mockk:1.14.11")
     testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
 }
