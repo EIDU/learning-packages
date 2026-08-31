@@ -11,7 +11,7 @@ if (localPropertiesFile.canRead())
     localProperties.load(localPropertiesFile.inputStream())
 
 plugins {
-    kotlin("jvm") version "2.3.20"
+    kotlin("jvm") version "2.4.10"
     kotlin("plugin.serialization") version "2.3.20"
     id("maven-publish")
     signing
